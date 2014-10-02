@@ -21,13 +21,14 @@ describe('model signatures', function() {
     test.object(pet);
 
     // verify that each instance of `Pet` is represented
-    var petModel = '{"id":0,"category":{"id":0,"name":""},"name":"","photoUrls":[""],"tags":[{"id":0,"name":""}],"status":"","phone":{"code":"","number":""},"owner":{"name":"","phone":{"code":"","number":""}}}';
+    var petModel = '{"id":1,"category":{"id":1,"name":" "},"name":" ","photoUrls":[" "],"tags":[{"id":1,"name":" "}],"status":" ","phone":{"code":" ","number":" "},"owner":{"name":" ","phone":{"code":" ","number":" "}}}';
     var model = '';
 
     model += '{' + '"cat":' + petModel + ',';
     model += '"dog":' + petModel + ',';
     model += '"mouse":' + petModel + '}';
 
-    should(JSON.stringify(pet.createJSONSample())).equal(model);
-  })  
+    should(JSON.stringify(JSON.parse(model), null, 2))
+      .equal(JSON.stringify(pet.createJSONSample(), null, 2));
+  })
 })
