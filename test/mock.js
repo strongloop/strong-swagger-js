@@ -14,7 +14,7 @@ exports.petstore = function(arg1, arg2, arg3, arg4) {
   }
   var instance = http.createServer(function(req, res) {
     var uri = url.parse(req.url).pathname;
-    var filename = path.join('test/spec', uri);
+    var filename = path.join('test/spec', uri).replace(/\\/g, '/');
     // for testing redirects
     if(filename === 'test/spec/api/redirect') {
       res.writeHead(302, {
