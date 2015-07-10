@@ -12,7 +12,7 @@
     },
     {
       "path": "http://localhost:8000/store",
-      "description": "Operations about store"
+      "description": ["Operations about store", "line2"]
     }
   ],
     "authorizations": {
@@ -51,7 +51,11 @@
   },
   "info": {
     "title": "Swagger Sample App",
-    "description": "This is a sample server Petstore server.  You can find out more about Swagger \n    at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample,\n    you can use the api key \"special-key\" to test the authorization filters",
+    "description": [
+      "This is a sample server Petstore server.  You can find out more about Swagger ",
+"    at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample,",
+"    you can use the api key \"special-key\" to test the authorization filters"
+    ],
     "termsOfServiceUrl": "http://helloreverb.com/terms/",
     "contact": "apiteam@wordnik.com",
     "license": "Apache 2.0",
