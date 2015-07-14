@@ -12,15 +12,18 @@
       "operations": [
         {
           "method": "GET",
-          "summary": "Find purchase order by ID",
-          "notes": "For valid response try integer IDs with value <= 5. Anything above 5 or nonintegers will generate API errors",
+          "summary": ["Find purchase order by ID", "(dummy line)"],
+          "notes": [
+            "For valid response try integer IDs with value <= 5.",
+            "Anything above 5 or nonintegers will generate API errors"
+          ],
           "type": "Order",
           "nickname": "getOrderById",
           "authorizations": {},
           "parameters": [
             {
               "name": "orderId",
-              "description": "ID of pet that needs to be fetched",
+              "description": ["ID of pet that needs to be fetched", "line2"],
               "required": true,
               "type": "string",
               "paramType": "path"
@@ -47,7 +50,7 @@
             "oauth2": [
               {
                 "scope": "test:anything",
-                "description": "anything"
+                "description": ["anything", "another line"]
               }
             ]
           },
