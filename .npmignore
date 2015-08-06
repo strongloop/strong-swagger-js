@@ -1,0 +1,15 @@
+.DS_Store
+*~
+*.swp
+*.swo
+*.tmproj
+*.iml
+*.sublime-*
+**/node_modules/
+**/npm-debug.log
+**/*.orig
+
+coverage/
+.idea/
+.classpath
+.project
