@@ -1,3 +1,957 @@
+2015-08-06, Version 21.0.0-dev.1
+================================
+
+ * Include browser/ dist in npm package (Miroslav Bajtoš)
+
+ * Remove `browser` from git, remove bower.json (Miroslav Bajtoš)
+
+ * Normalize array values of text properties (Miroslav Bajtoš)
+
+ * Rename the module to strong-swagger-client (Miroslav Bajtoš)
+
+ * add ui support for array of string enum (Jake Ayala)
+
+ * Remove error for duplicate body params, since it breaks Try it out (Shelby Sanders)
+
+ * Refactored to visualize more parameter and property restrictions (Shelby Sanders)
+
+ * Added setting of xhrFields.withCredentials, so JQuery will actually send cookies (Shelby Sanders)
+
+ * Corrected getSampleJSON() to handle Array of Model (Shelby Sanders)
+
+ * Added support for optional path parameters (Shelby Sanders)
+
+ * Remove unnecessary comma between properties as it's confusing for multi-line content (Shelby Sanders)
+
+ * Changed SwaggerModelProperty() to avoid reference error when property name coincidentally matches a Swagger schema name (Shelby Sanders)
+
+ * Changed SwaggerRequest to forward request headers and body to status (Shelby Sanders)
+
+ * Ported changes from SwaggerUI for handling of arrays of types/models, defaultValues, basePaths, and large descriptions (Shelby Sanders)
+
+ * Fix unit-tests on Windows (Miroslav Bajtoš)
+
+ * Fix project infrastructure (Miroslav Bajtoš)
+
+
+2015-07-22, Version 2.1.2
+=========================
+
+ * updated versions, prepare for release (Tony Tam)
+
+ * merged & rebuilt (Tony Tam)
+
+ * merged (Tony Tam)
+
+ * applied #508 to source (Tony Tam)
+
+ * merged, rebuilt (Tony Tam)
+
+ * rebuilt (Tony Tam)
+
+ * rebuilt dist (Tony Tam)
+
+ * rebuilt client (Tony Tam)
+
+ * added basePath, host overrides for #532 (Tony Tam)
+
+ * fix, tests for #530 (Tony Tam)
+
+ * built files (Josh Ponelat)
+
+ * schemToHTML deferences and handles Models (Josh Ponelat)
+
+ * safe guard the modelPropertyMacro (Josh Ponelat)
+
+ * remove schema sample generation from lib/helpers (Josh Ponelat)
+
+ * move schema generation to its own file (Josh Ponelat)
+
+ * moved schemToJSON and schemaToHTML to lib/helpers (Josh Ponelat)
+
+ * saved initial swaggerObject to oldSwaggerObject when converting from older version (Ole Lensmar)
+
+ * moved saving of converted spec to be before resolving (Ole Lensmar)
+
+ * saved parsed and converted definition to client.swaggerObject property (Ole Lensmar)
+
+ * Fix content-type for delete request with body swagger-api/swagger-ui#1435 (Roman Morozov)
+
+ * Fix swagger-api/swagger-ui#1435 (Roman Morozov)
+
+ * Use traditional for instead of for-in in Resolver.countUnresolvedRefs(). (Simon Morvan)
+
+ * add test as per tkatkov's suggestion (Ramon Snir)
+
+ * Add bower install to README.md (mb21)
+
+ * Fix inability to apply multiple apiKey authentications (Anton Popov)
+
+ * browser/swagger-client.js: Throw errors for null types (W. Trevor King)
+
+ * fix allOf support (Ramon Snir)
+
+ * Fixed #504: The `asCurl` method doesn't allow to set content type for response and request (Ivan Ushankin)
+
+ * Improve the language in CONTRIBUTING.md (Andreas Kohn)
+
+ * Use a SPDX-compatible identifier for the 'license' value (Andreas Kohn)
+
+ * Set operation.schemes to the value of 'schemes' if set (Andreas Kohn)
+
+ * Remove duplicated code. (Ivan Goncharov)
+
+ * fix multiple auths that return true (Josh Ponelat)
+
+ * Add updated browser files (joepadmiraal)
+
+ * Extract format field from property models and parameters when it is available (joepadmiraal)
+
+ * correct object checking across the project (Josh Ponelat)
+
+ * use lodash to check types in resolver.js (Josh Ponelat)
+
+ * Remove the 'name' argument of PasswordAuthorization (David Kozub)
+
+ * added back uglifyify (Josh Ponelat)
+
+
+2015-06-06, Version 2.1.1
+=========================
+
+ * bumped version (Tony Tam)
+
+ * removed invalid shrinkwrap file (Tony Tam)
+
+ * updated versions, rebuilt (Tony Tam)
+
+ * linting (Tony Tam)
+
+ * re-enabled tests, addressed npe in resolution when there are no matches (Tony Tam)
+
+
+2015-06-05, Version 2.1.7-M2
+============================
+
+ * merged (Tony Tam)
+
+ * updated version (Tony Tam)
+
+ * disabled browser-only tests (Tony Tam)
+
+ * fix, rebuild for #470 (Tony Tam)
+
+ * comment out resolver/yaml test (Josh Ponelat)
+
+ * change port on gulp-connect (Josh Ponelat)
+
+ * strip mime-checking for http parsing, partial tests (Josh Ponelat)
+
+ * add gulp connect server (Josh Ponelat)
+
+ * add swagger-spec specs (Josh Ponelat)
+
+ * add jquery/yaml test (Josh Ponelat)
+
+ * will to try parse json/yaml, regardless of mime-type (Josh Ponelat)
+
+ * Don't warn when produces contains '*/*' (jheyming)
+
+ * default to application/json if we can (Josh Ponelat)
+
+ * change oauth urls to swagger.io domain (Josh Ponelat)
+
+ * change email address in spec files to apiteam@swagger.io (Josh Ponelat)
+
+ * reduce code in auth.apply (Josh Ponelat)
+
+ * replace use of nock with faux-jax which works in browser too (Josh Ponelat)
+
+ * Refactor/add tests for lib/auth (Josh Ponelat)
+
+ * move clientAuthorization to contructor and allow pre-populating (Josh Ponelat)
+
+ * fix for #460 (Tony Tam)
+
+ * Fixed License (Ron)
+
+ * Updated ToS links (Ron)
+
+ * Updated license (Ron)
+
+ * Revert "Don't warn when produces is "*/*"." (Ron)
+
+ * linting (Tony Tam)
+
+ * missing check (Tony Tam)
+
+ * added composition logic (Tony Tam)
+
+ * Don't warn when produces is "*/*". (jheyming)
+
+ * Cleaned composition/inheritance samples (Ron)
+
+ * add done to browsertest (Josh Ponelat)
+
+ * added tests for composition (Tony Tam)
+
+ * add browsertest to travis (Josh Ponelat)
+
+ * initial unit tests for the browser (Josh Ponelat)
+
+ * update npm-shrinkwrap to latest, and build (Josh Ponelat)
+
+ * use npm test instead of mocha straight, disable browsertests (Josh Ponelat)
+
+ * added buffer check (fehguy)
+
+ * merged (fehguy)
+
+ * Revert "parseBody handle whitespace in responses" (Tony Tam)
+
+ * rebuilt (fehguy)
+
+ * rebased, merged #280 (fehguy)
+
+ * updated gulp (fehguy)
+
+ * rebuilt (Tony Tam)
+
+ * fixed build issue (Tony Tam)
+
+ * updated, added tests for yaml.  Replaces #415 (Tony Tam)
+
+ * update README example to include responseContentType (Josh Ponelat)
+
+ * create npm-shrinkwrap (Josh Ponelat)
+
+ * corrected = into += (Josh Ponelat)
+
+ * fixed locations (Tony Tam)
+
+ * added test scenarios for #417 (Tony Tam)
+
+ * improved unresolved ref handling (Tony Tam)
+
+ * test updates (Tony Tam)
+
+ * updated tests, fixes for resolver (Tony Tam)
+
+ * tests, more support for relative refs (Tony Tam)
+
+ * fixes ui-1152 by carrying across the schema.requires array (Josh Ponelat)
+
+ * added feature, partial tests for #417 (Tony Tam)
+
+ * setup firefox for selenium in travis-ci (Matthew R Hanlon)
+
+ * add pet/{petId}/uploadImage to test spec (Matthew R Hanlon)
+
+ * test harness for browser-based tests (Matthew R Hanlon)
+
+ * convert responseModel into schema+$ref (Josh Ponelat)
+
+ * Add support for GFM syntax in model (schema) descriptions by adding a 'propDesc' class around descriptions which can be used as a hook by Swagger-UI. (Nara Kasbergen)
+
+ * Revert "Use jQuery for trimming" (Bjoern Rochel)
+
+ * Use jQuery for trimming (Björn Rochel)
+
+ * Can handle whitespace only responses (Bjoern Rochel)
+
+
+2015-05-14, Version 2.1.6-M2
+============================
+
+ * update version (Tony Tam)
+
+ * renamed (Tony Tam)
+
+ * fix for #126, linting (Tony Tam)
+
+ * made client pluggable for #239 (Tony Tam)
+
+ * fix for #427, added schemes[0] array.  could be smarter to prefer https over http (Tony Tam)
+
+ * fix for #426 (Tony Tam)
+
+ * removed console output (Tony Tam)
+
+
+2015-05-13, Version 2.1.5-M2
+============================
+
+ * updated versions for release (Tony Tam)
+
+ * removed some cruft (Tony Tam)
+
+ * fix for #422 (Tony Tam)
+
+ * updated required props (Tony Tam)
+
+ * fix, tests for https://github.com/swagger-api/swagger-ui/issues/1260 (Tony Tam)
+
+ * rebuilt (Tony Tam)
+
+ * linting (Tony Tam)
+
+ * test for #419 (Tony Tam)
+
+ * fix for #419 (Tony Tam)
+
+
+2015-05-08, Version 2.1.4-M2
+============================
+
+ * updated version for release (Tony Tam)
+
+ * fix for #416, makes rendering more compact (Tony Tam)
+
+ * fix for https://github.com/swagger-api/swagger-ui/issues/1251 (Tony Tam)
+
+
+2015-05-08, Version 2.1.3-M2
+============================
+
+ * updated bower (Tony Tam)
+
+ * updated name (Tony Tam)
+
+ * fixed missing url #404 (Tony Tam)
+
+ * added fix, test for #375 (Tony Tam)
+
+ * added empty json for empty post when content-type is application/json.  also set content-type for non-json posts per RFC2616 (Tony Tam)
+
+ * merged (Tony Tam)
+
+ * rebuilt (Tony Tam)
+
+ * Update README.md (Lorinda Brandon)
+
+ * Fix for #409: Top level example is included in model (Hes Siemelink)
+
+ * use primitive in param.enum for booleans (Josh Ponelat)
+
+ * tests: update to use raw html strings (Josh Ponelat)
+
+ * fix required props in model#getMockSignature (Josh Ponelat)
+
+ * convert v1.2 required props in v2.0 (Josh Ponelat)
+
+ * add check for inline model in operation#getModelSignature (Josh Ponelat)
+
+ * add String#trim polyfill and tests (Josh Ponelat)
+
+ * Fix issue with `/apis` tag (Jeremy Whitlock)
+
+ * Checking in up-to-date artifacts from the current state of the branch. (Alex Worden)
+
+ * Fix bug that occurs in the swagger-ui "Try it out!" button for relative and https paths. Fix bug in SwaggerSpecConverter initialization. Account for an absolute basePath that uses https. Account for a relative basePath. (cherry picked from commit f2d2399) (Alex Worden)
+
+ * Support https basePath (fragag03)
+
+ * from #396 (Tony Tam)
+
+ * Update git repository URL (Josep)
+
+ * add support for global consumes/produces (Josh Ponelat)
+
+ * allow for type="void" in converter (Josh Ponelat)
+
+ * Fix bug where authorizations were applied even when explicitly turned off (Jeremy Whitlock)
+
+ * Add back support for model property and parameter macros (Jeremy Whitlock)
+
+ * Add back the default error/success callbacks (Jeremy Whitlock)
+
+ * Fix issue with nested schemas (Jeremy Whitlock)
+
+ * Fix display of references to primitives (Jeremy Whitlock)
+
+ * use "Inline Model" over "inline#" (Josh Ponelat)
+
+ * Update README.md (Tony Tam)
+
+ * use opts.useJQuery (Matthew R Hanlon)
+
+ * allow `useJQuery` to be overridden in opts (Matthew R Hanlon)
+
+ * correctly set opts.useJQuery from Operation (Matthew R Hanlon)
+
+ * fix Array of $ref in operation#getType and #getModelSampleJSON (Josh Ponelat)
+
+ * fix for #376 (Tony Tam)
+
+ * ui#1133: add more support for inline schema's (Josh Ponelat)
+
+ * Fix documentation and sample code for browser usage to reflect the new way to instantiate (Bentsen, Troels)
+
+ * Bring primitive types inline with latest swagger spec (Eric Thompson)
+
+ * updated version for next release (Tony Tam)
+
+ * default "Accept" header to one found in #produces (Josh Ponelat)
+
+ * Enum definition at array items level as an option Default value as array for array type parameters (Waldek Kozba)
+
+ * Update spec-converter.js to take into account obj.basePath (Shaun Berryman)
+
+ * Add Bower support (ehmicky)
+
+ * prompt user to send their PR to develop_2.0 until master is ready (Prabhat Jha)
+
+ * Fixed memory leak. (Kamil Sobol)
+
+
+2015-04-16, Version 2.1.2-M2
+============================
+
+ * rebuilt (Tony Tam)
+
+ * updated readme from master (Tony Tam)
+
+ * added parsing try/catch for when type is not application/json (Tony Tam)
+
+ * Updated browser example in README to be a working example (Jeremy Whitlock)
+
+ * updated dev version (Tony Tam)
+
+
+2015-04-11, Version 2.1.1-M2
+============================
+
+ * rebuilt (Tony Tam)
+
+ * added better check on schema.default (Tony Tam)
+
+ * typo (Tony Tam)
+
+ * fix for recursive resolving (Tony Tam)
+
+ * updated dev version (Tony Tam)
+
+ * fix for #346 (Tony Tam)
+
+ * fix for #353 (Tony Tam)
+
+ * Update README.md (nslowes)
+
+ * Update model.js (hamx0r)
+
+ * Update models.js (hamx0r)
+
+ * Make Git ignore temporary files (ehmicky)
+
+
+2015-03-28, Version 2.1.0-M2
+============================
+
+ * fixed version (Tony Tam)
+
+ * updated README for latest release (Tony Tam)
+
+ * updated version, contributors (Tony Tam)
+
+ * added endsWith prototype for lower than ECMAScript 6 engines (Tony Tam)
+
+ * fixed merge error (Tony Tam)
+
+ * updated files (Tony Tam)
+
+ * prepare for release (Tony Tam)
+
+ * Add browser to npm (Mohsen Azimi)
+
+ * New build (Mohsen Azimi)
+
+ * added alpha1 version (Tony Tam)
+
+ * added test for swagger-ui/issues/1078 (Tony Tam)
+
+ * added resolver logic for response refs #329 (Tony Tam)
+
+ * fix for #328, empty response object causing errors (Tony Tam)
+
+ * fix, test for #122 (Tony Tam)
+
+ * fix, tests for #327 (Tony Tam)
+
+ * rebuilt, tests for #317 (Tony Tam)
+
+ * fix for missing tags (Tony Tam)
+
+ * fix, test for #316 (Tony Tam)
+
+ * tests, fixes for #255 (Tony Tam)
+
+ * rebuilt per #255 (Tony Tam)
+
+ * merged (Tony Tam)
+
+ * fix for #225, added ref support for escaped paths (Tony Tam)
+
+ * Properly handle arrays without items (Jeremy Whitlock)
+
+ * Miscellaneous cleanup (Jeremy Whitlock)
+
+ * Only process array enums when properly formatted (Jeremy Whitlock)
+
+ * Update .travis.yml (Tony Tam)
+
+ * First pass at properly rendering arrays with nested $ref (Jeremy Whitlock)
+
+ * Pass responseObj to converter (Mohsen Azimi)
+
+ * added security definitions per #259 (Tony Tam)
+
+ * fix for #259 (Tony Tam)
+
+ * add index.js to package.json files (Frederik Creemers)
+
+ * added tag descriptions #259 (Tony Tam)
+
+ * regenerated (Tony Tam)
+
+ * fix for 1.0 swagger specs (Tony Tam)
+
+ * removed unused files (Tony Tam)
+
+ * linting, tests (Tony Tam)
+
+ * fixed tests, conversions (Tony Tam)
+
+ * Simple test to verify that the HttpClient is actually returning the server side headers in the response object. We achieve by making a request to the mock server. I chose to make a request that triggers the 404 path, which sets the content-type to 'text/plain'. (Livio Soares)
+
+ * fixed in param, produces, consumes (Tony Tam)
+
+ * added more tests (Tony Tam)
+
+ * more converter support (Tony Tam)
+
+ * added responses (Tony Tam)
+
+ * some variable cleanup (Tony Tam)
+
+ * removed some garbage (Tony Tam)
+
+ * added parameters, enums, models (Tony Tam)
+
+ * httpClient: Fix response headers. This looks like a typo, but the current response headers are being inherented from the *request*, not from the reponse. (Livio Soares)
+
+ * added declaration placeholder (Tony Tam)
+
+ * initial commit for spec conversion (Tony Tam)
+
+ * Revert changes to SwaggerClient flow when no success callback is provided (Jeremy Whitlock)
+
+ * Use JSON examples, when available, when creating sample JSON for operations (Jeremy Whitlock)
+
+ * Add test to show we handle empty tags properly (Jeremy Whitlock)
+
+ * Properly handle reserved names for tags and operation ids (Jeremy Whitlock)
+
+ * Update Gulp flow and README to reflect (Jeremy Whitlock)
+
+ * Add externalDocs property to SwaggerClient when available (Jeremy Whitlock)
+
+ * Add response properties to operation responses (Jeremy Whitlock)
+
+ * Support Browserify (Jeremy Whitlock)
+
+ * Follow up for e2c0bb2 to fix failing tests (Jeremy Whitlock)
+
+ * test, fix for #272, stringify not called on post objects (Tony Tam)
+
+ * Support inline models (model property of type 'object') (Jeremy Whitlock)
+
+ * Fix lint errors (Konstantin Yakushev)
+
+ * Minor fixes (Konstantin Yakushev)
+
+ * Tests, build and minor bugfix (Konstantin Yakushev)
+
+ * reverted file (Tony Tam)
+
+ * Fix '&' adding to url if param is empty (Konstantin Yakushev)
+
+ * rebuilt (Tony Tam)
+
+ * fix for https://github.com/swagger-api/swagger-ui/issues/553 (Tony Tam)
+
+ * removed comment (Tony Tam)
+
+ * updated readme (Tony Tam)
+
+ * removed shred non-bundle files (Tony Tam)
+
+ * removed jasmine (Tony Tam)
+
+ * Fixed check for absolute URL (Christian Kaltepoth)
+
+
+2015-03-04, Version 2.1.10-M1
+=============================
+
+ * added file (Tony Tam)
+
+ * fix for issue 272 (Tony Tam)
+
+ * Regenerated swagger-client (aurelian)
+
+ * Renamed swaggerRequstHeaders to swaggerRequestHeaders (aurelian)
+
+
+2015-02-21, Version 2.1.9-M1
+============================
+
+ * updated version (Tony Tam)
+
+ * added malformed link tests (Tony Tam)
+
+ * rebuilt client (Tony Tam)
+
+ * added scope for proper callback (Tony Tam)
+
+ * wired in resolver for remote refs (Tony Tam)
+
+ * added remote resolver, tests (Tony Tam)
+
+ * started remote reference logic (Tony Tam)
+
+
+2015-02-21, Version 2.1.8-M1
+============================
+
+ * updated version (Tony Tam)
+
+ * added file-upload into 2.0 supported client (Tony Tam)
+
+ * fixed exports (Tony Tam)
+
+ * fixed help method for array types (Tony Tam)
+
+ * added sample representations for https://github.com/swagger-api/swagger-ui/issues/934 (Tony Tam)
+
+
+2015-02-19, Version 2.1.6-M1
+============================
+
+ * Update README.md (Tony Tam)
+
+ * fix, tests for bindings as found in #247 (Tony Tam)
+
+ * added 1.1 finish support (Tony Tam)
+
+ * fix, test for #246 (Tony Tam)
+
+
+2015-02-18, Version 2.1.5-M1
+============================
+
+ * added tags description support for #243 (Tony Tam)
+
+ * fix for #243 (Tony Tam)
+
+ * added opts to pass to underlying http client, #229 (Tony Tam)
+
+ * tests for #225 (Tony Tam)
+
+ * fix from https://github.com/swagger-api/swagger-ui/pull/939 merged to proper repo (Tony Tam)
+
+ * updated version, rebuilt (Tony Tam)
+
+ * test for overflow on self-referencing array models (Tony Tam)
+
+ * added model signature, removed overflow on self references (Tony Tam)
+
+ * fix for #238, set ready on completion (Tony Tam)
+
+ * Adding response.statusText to the response out object to support custom statusText. (Cagdas Bayram)
+
+ * Update README.md (Tony Tam)
+
+ * regex pattern matching fix (Michael Stewart)
+
+
+2015-02-11, Version 2.1.4-M1
+============================
+
+ * fix for #234 (Tony Tam)
+
+
+2015-02-11, Version 2.1.3-M1
+============================
+
+ * added 1.2 flag to compat tests (Tony Tam)
+
+ * updated version (Tony Tam)
+
+ * regenerated (Tony Tam)
+
+ * updated test path (Tony Tam)
+
+ * linted, fixed tests (Tony Tam)
+
+ * linted (Tony Tam)
+
+ * updated files (Tony Tam)
+
+
+2015-02-09, Version 2.1.2-M1
+============================
+
+ * updated version (Tony Tam)
+
+ * updated client (Tony Tam)
+
+ * fixed deprecated parsing per https://github.com/swagger-api/swagger-ui/issues/907, #232 (Tony Tam)
+
+ * Avoid URL encoding header values (Duncan Hall)
+
+ * Update README.md (Ron)
+
+
+2015-02-02, Version 2.1.1-M1
+============================
+
+ * fix for https://github.com/swagger-api/swagger-ui/issues/898, exposing param.signature as Array[...] when type:'array' (Tony Tam)
+
+ * added recursion checks, tests, array formatting for #222 (Tony Tam)
+
+ * property merging headers set from parameters and content-types in #895 (Tony Tam)
+
+ * added auth test (Tony Tam)
+
+ * merged from develop (Tony Tam)
+
+ * updated header (Tony Tam)
+
+ * Update LICENSE (Ron)
+
+ * typos (Tony Tam)
+
+ * updated readme, versions (Tony Tam)
+
+ * fix for #161 (Tony Tam)
+
+ * fix for https://github.com/swagger-api/swagger-ui/issues/837 (Tony Tam)
+
+ * fix for #837 (Tony Tam)
+
+ * fixed model signature for unknown types (Tony Tam)
+
+ * updated build, tests, unified client signature (Tony Tam)
+
+ * updated tests, responses in support of https://github.com/swagger-api/swagger-ui/issues/331 (Tony Tam)
+
+ * added checking for underspecified array properties (Tony Tam)
+
+ * fixed scheme handling for https://github.com/swagger-api/swagger-ui/issues/615 (Tony Tam)
+
+ * fix for https://github.com/swagger-api/swagger-ui/issues/800, incorrect rendering of array of primitives (Tony Tam)
+
+ * added test for https://github.com/swagger-api/swagger-ui/issues/835 (Tony Tam)
+
+ * fix, test for https://github.com/swagger-api/swagger-ui/pull/579 (Tony Tam)
+
+ * moved info migration for 1.x specs into swagger-compat (Tony Tam)
+
+ * fixed double slash per #819 (Tony Tam)
+
+ * removed enum keyword, extra quotes (Tony Tam)
+
+ * handling for null url https://github.com/swagger-api/swagger-ui/issues/849 (Tony Tam)
+
+ * added test for https://github.com/swagger-api/swagger-ui/pull/853 (Tony Tam)
+
+ * added test for default value (Tony Tam)
+
+ * changed to use expect, added fix for param macro (Tony Tam)
+
+ * fixed content type setting (Tony Tam)
+
+ * merged from https://github.com/swagger-api/swagger-ui/pull/877 (Tony Tam)
+
+ * merged into swagger-js from https://github.com/swagger-api/swagger-ui/pull/878 (Tony Tam)
+
+ * Updated package (Tony Tam)
+
+ * fixed bad lint (Tony Tam)
+
+ * updated version (Tony Tam)
+
+ * linting (Tony Tam)
+
+ * merged local changes (Tony Tam)
+
+ * updated  to dot syntax (Tony Tam)
+
+ * fixed rendering of Array in getStringSignature for issue 215 (Adam Anderson)
+
+ * added tests for #179 (Tony Tam)
+
+ * added test for #216 (Tony Tam)
+
+ * Fix jQuery HTTP (Axel Haustant)
+
+ * added test for #147 (Tony Tam)
+
+ * added fix, test for #143 (Tony Tam)
+
+ * added delete (Tony Tam)
+
+ * added request tests (Tony Tam)
+
+ * manually applied #214 (Tony Tam)
+
+ * added tests for 2.0 spec, added mock mode in request (Tony Tam)
+
+ * removed dups (Tony Tam)
+
+ * more linting (Tony Tam)
+
+ * merged 1.x tests (Tony Tam)
+
+ * added gulp-wrap, compat-lib into single library (Tony Tam)
+
+ * fix for #210, query param encoding (Tony Tam)
+
+ * added header (Tony Tam)
+
+ * fix for https://github.com/swagger-api/swagger-ui/issues/156 (Tony Tam)
+
+ * merged with master (Tony Tam)
+
+ * updated file to build to proper location (Tony Tam)
+
+ * removed old tests (Tony Tam)
+
+ * updated package per #199 (Tony Tam)
+
+ * Updated package.json (Axel Haustant)
+
+ * updated the README.md dev section (Axel Haustant)
+
+ * Fix paths (Axel Haustant)
+
+ * Added cover task (Axel Haustant)
+
+ * Initialized gulp (Axel Haustant)
+
+ * added tests for help, asCurl syntax #174 (Tony Tam)
+
+ * added tests for host, port, headers (Tony Tam)
+
+ * fix for #192, added content negotiation tests (Tony Tam)
+
+ * moved folders (Tony Tam)
+
+ * deleted old files (Tony Tam)
+
+ * added travis badge (Tony Tam)
+
+ * added mocha tests, started test structure (Tony Tam)
+
+ * fix for https://github.com/swagger-api/swagger-ui/issues/770, checking method instead of type (Tony Tam)
+
+ * fixed macros (Tony Tam)
+
+ * added var name (Tony Tam)
+
+ * address https://github.com/swagger-api/swagger-js/pull/165 (Tony Tam)
+
+ * fix for https://github.com/swagger-api/swagger-ui/pull/760 (Tony Tam)
+
+ * merged from master (Tony Tam)
+
+ * fix for https://github.com/swagger-api/swagger-ui/issues/735 (Tony Tam)
+
+ * fix for https://github.com/swagger-api/swagger-ui/issues/644#issuecomment-62723721, fall back on integer, number if format is not an expected value (Tony Tam)
+
+ * fix for #167, failure to find model properties with canonical references (Tony Tam)
+
+ * added missing param check (Tony Tam)
+
+ * refTyp substring fix (mpoiriert)
+
+ * Ref not found when using full relative path (mpoiriert)
+
+ * rebuilt (Tony Tam)
+
+ * added legacy auth support (Tony Tam)
+
+ * fix for https://github.com/swagger-api/swagger-ui/issues/714 (Tony Tam)
+
+ * added auth support (Tony Tam)
+
+ * fix for vendor options in paths segment, https://github.com/wordnik/swagger-ui/issues/644 (Tony Tam)
+
+ * added support for default (Tony Tam)
+
+ * merged #149 (Tony Tam)
+
+ * fixed handling of integer, number types without formats specified (Tony Tam)
+
+ * updated client to include optional, descriptions (Tony Tam)
+
+ * removed dist folder (Tony Tam)
+
+ * updated getStringSignature to support missing formats (Tony Tam)
+
+ * updated typeFromJsonSchema to support missing formats (Tony Tam)
+
+ * added support for body params other than (Tony Tam)
+
+ * handled array inputs with missing enum values (Tony Tam)
+
+ * updated for allowable values (Tony Tam)
+
+ * added back form encoded support (Tony Tam)
+
+ * added options (Tony Tam)
+
+ * fix for header undefined (Tony Tam)
+
+ * merge from https://github.com/wordnik/swagger-ui/pull/639 (Tony Tam)
+
+ * added body handling (Tony Tam)
+
+ * added exception handling (Tony Tam)
+
+ * added spec to options for #139 (Tony Tam)
+
+ * fix for https://github.com/wordnik/swagger-ui/issues/605 (Tony Tam)
+
+ * updated http method (Tony Tam)
+
+ * added description per #135 (Tony Tam)
+
+ * library fix for https://github.com/wordnik/swagger-ui/issues/602 (Tony Tam)
+
+ * added ampersand fix for https://github.com/wordnik/swagger-ui/issues/596 (Tony Tam)
+
+ * enabled security (Tony Tam)
+
+ * added validity check (Tony Tam)
+
+ * added host if not specified by server (Tony Tam)
+
+ * updated accept header (Tony Tam)
+
+ * made compat with 2.0 lib (Tony Tam)
+
+ * updated js (Tony Tam)
+
+ * added files (Tony Tam)
+
+
+2015-02-01, Version 2.1.0-M1
+============================
+
+ * merged from develop_2.0 (Tony Tam)
+
+
 2015-08-06, Version 20.1.0
 ==========================
 
