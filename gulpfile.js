@@ -111,6 +111,16 @@ gulp.task('watch', ['test'], function () {
 });
 
 gulp.task('browsertest', function(done) {
+  console.log('Build environment');
+  console.log('    CI', process.env.CI);
+  console.log('    DISPLAY', process.env.DISPLAY);
+  if (process.env.CI && !process.env.DISPLAY) {
+    // skip browser tests
+    console.error('Running on CI but DISPLAY is NOT provided.');
+    console.error('Skipping all browser tests.');
+    return done();
+  }
+
   karma.start(karmaConfig, done);
 });
 
