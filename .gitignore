@@ -9,6 +9,7 @@
 **/npm-debug.log
 **/*.orig
 
+browser/
 bower_components/
 coverage/
 .idea/

@@ -16,6 +16,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "prepublish": "gulp build",
     "build": "gulp build",
     "dev": "gulp watch",
     "test": "gulp test",
