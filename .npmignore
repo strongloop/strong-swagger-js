@@ -1,9 +1,0 @@
-*.sublime-*
-*.html
-*.tgz
-.classpath
-.project
-.npmignore
-.gitignore
-lib/swagger-*spec.js
-src/swagger-*-spec.js

@@ -1,229 +1,405 @@
-var test = require('unit.js')
-var should = require('should')
-var mock = require('../test/mock');
-var swagger = require('../lib/swagger');
+/* global after, before, describe, it */
+
+'use strict';
+
+var test = require('unit.js');
+var expect = require('expect');
+var mock = require('./mock');
 var sample, instance;
 
-describe('request operations', function() {
-  before(function(done) {
-    mock.petstore(done, function(petstore, server){
+describe('swagger request functions', function () {
+  before(function (done) {
+    mock.petstore(done, function (petstore, server){
       sample = petstore;
       instance = server;
     });
   });
 
-  after(function(done){
+  after(function (done){
     instance.close();
 
+    sample.clientAuthorizations.authz = {};
     done();
   });
 
-  it('verify the help function', function() {
+  it('posts an object', function (done) {
     var petApi = sample.pet;
-    test.object(petApi);
-    var help = petApi.getPetById.help();
-    should(help).equal('* petId (required) - ID of pet that needs to be fetched');
-  })
 
-  it('shows curl syntax', function() {
-    var help = sample.pet.getPetById.help();
-    console.log(help);
-    var curl = sample.pet.getPetById.asCurl({petId: 1});
-    should(curl).equal('curl --header "Accept: application/json" http://localhost:8000/api/pet/1');
-  })
+    petApi.createPet({body: {id: 100, name: 'gorilla'}}, function (resp) {
+      expect(resp.obj.id).toBe(100);
+      expect(resp.obj.name).toBe('gorilla');
 
-  it('generate a get request', function() {
+      done();
+    });
+  });
+
+  it('posts an empty object', function (done) {
+    var petApi = sample.pet;
+
+    var obj = petApi.createPet({}, {mock: true});
+    expect(obj.body).toBe('{}');
+    done();
+  });
+
+  it('posts a string value', function (done) {
+    var petApi = sample.pet;
+
+    petApi.createPet({body: '{"id": 100, "name": "gorilla"}'}, function (resp) {
+      expect(resp.obj.id).toBe(100);
+      expect(resp.obj.name).toBe('gorilla');
+
+      done();
+    });
+  });
+
+  it('gets the resource description', function () {
+    var userApi = sample.user;
+
+    expect(userApi.description).toEqual('All about the Users');
+  });
+
+  it('gets the resource external docs', function () {
+    var petApi = sample.pet;
+
+    expect(petApi.description).toEqual('Pet Operations');
+    expect(petApi.externalDocs).toEqual('http://swagger.io');
+  });
+
+  it('generate a get request', function () {
     var petApi = sample.pet;
     var req = petApi.getPetById({petId: 1}, {mock: true});
 
     test.object(req);
-    should(req.method).equal('GET');
-    should(req.headers['Accept']).equal('application/json');
-    should(req.url).equal('http://localhost:8000/api/pet/1');
-  })
 
-  it('verifies the http request object for a GET with query params', function() {
+    expect(req.method).toBe('GET');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet/1');
+  });
+
+  it('generate a get request with query params', function () {
     var petApi = sample.pet;
-    var params = {
-      headers: {},
-      status: 'available'
-    };
-    var opts = { mock: true };
+    var req = petApi.findPetsByTags({tags: ['tag 1', 'tag 2']}, {mock: true});
 
-    var req = petApi.findPetsByStatus(params, opts);
+    test.object(req);
 
-    should(req.method).equal("GET");
-    should(req.headers["Accept"]).equal("application/json");
-    should(req.url).equal("http://localhost:8000/api/pet/findByStatus?status=available");
-  })
+    expect(req.method).toBe('GET');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet/findByTags?tags=tag%201&tags=tag%202');
+  });
 
-  it('verifies the http request object for a POST', function() {
+  it('generate a get request with email query param array', function () {
     var petApi = sample.pet;
-    var params = {
-      headers: {},
-      body: JSON.stringify({
-        id: 100,
-        name: 'monster',
-        status: 'dead'
-      })
-    };
-    var opts = { mock: true };
+    var req = petApi.findPetsByStatus({status: ['fehguy@gmail.com', 'nada']}, {mock: true});
 
-    var req = petApi.addPet(params, opts);
+    test.object(req);
 
-    should(req.method).equal("POST");
-    should(req.headers["Accept"]).equal("application/json");
-    should(req.headers["Content-Type"]).equal("application/json");
-    should(req.body).equal('{"id":100,"name":"monster","status":"dead"}');
-    should(req.url).equal("http://localhost:8000/api/pet");
-  })
+    expect(req.method).toBe('GET');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet/findByStatus?status=fehguy%40gmail.com|nada');
+  });
 
-  it('verifies the http request object for a POST with form params', function() {
+  it('generate a POST request with body', function () {
     var petApi = sample.pet;
-    var params = {
-      headers: {},
-      petId: 1,
-      name: 'dog',
-      status: 'very happy'
-    };
-    var opts = { mock: true };
+    var req = petApi.addPet({body: {id: 100, name: 'gorilla'}}, {mock: true});
 
-    var req = petApi.updatePetWithForm(params, opts);
+    test.object(req);
 
-    should(req.method).equal('POST');
-    should(req.headers['Accept']).equal('application/json');
-    should(req.headers['Content-Type']).equal('application/x-www-form-urlencoded');
-    should(req.body).equal('name=dog&status=very%20happy');
-    should(req.url).equal('http://localhost:8000/api/pet/1');
-  })
+    expect(req.method).toBe('POST');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.headers['Content-Type']).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet');
+    expect(req.body).toEqual({ id: 100, name: 'gorilla' });
+  });
 
-  it('execute put operations', function() {
+  it('generate a POST request with no body', function () {
     var petApi = sample.pet;
-    var params = {
-      headers: {},
-      body: JSON.stringify({
-        id: 100,
-        name: 'monster',
-        status: 'dead'
-      })
-    };
-    var opts = { mock: true };
+    var req = petApi.addPet({}, {mock: true});
 
-    var req = petApi.updatePet(params, opts);
+    test.object(req);
 
-    should(req.method).equal('PUT');
-    should(req.headers['Accept']).equal('application/json');
-    should(req.headers['Content-Type']).equal('application/json');
-    should(req.body).equal('{\"id\":100,\"name\":\"monster\",\"status\":\"dead\"}');
-    should(req.url).equal('http://localhost:8000/api/pet');
-  })
+    expect(req.method).toBe('POST');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.headers['Content-Type']).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet');
+    expect(req.body).toBe('{}');
+  });
 
-  it('execute delete operations', function() {
+  it('generate a POST request with an empty body', function () {
     var petApi = sample.pet;
-    var params = {
-      headers: {},
-      petId: 100
-    };
-    var opts = { mock: true };
+    var req = petApi.addPet({body:{}}, {mock: true});
 
-    var req = petApi.deletePet(params, opts);
+    test.object(req);
 
-    should(req.method).equal('DELETE');
-    should(req.headers['Accept']).equal('application/json');
-    should(req.headers['Content-Type']).equal('application/json');
-    should(req.url).equal('http://localhost:8000/api/pet/100');
-  })
+    expect(req.method).toBe('POST');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.headers['Content-Type']).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet');
+    expect(req.body).toEqual({});
+  });
 
-  it('query params should be single encoded', function() {
+  it('generate a POST request for application/x-www-form-urlencoded', function () {
     var petApi = sample.pet;
-    var params = {
-      headers: {},
-      status: "a b c d e"
-    };
-    var opts = { mock: true };
+    var req = petApi.updatePetWithForm({petId:100, name: 'monster', status: 'miserable dog'}, {mock: true});
 
-    var req = petApi.findPetsByStatus(params, opts);
+    test.object(req);
 
-    should(req.method).equal('GET');
-    should(req.headers['Accept']).equal('application/json');
-    test.value(req.headers['Content-Type']).isUndefined();
-    should(req.url).equal('http://localhost:8000/api/pet/findByStatus?status=a%20b%20c%20d%20e');
-  })
+    expect(req.method).toBe('POST');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.headers['Content-Type']).toBe('application/x-www-form-urlencoded');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet/100');
+    expect(req.body).toEqual('name=monster&status=miserable%20dog');
+  });
 
-  it('path params should be properly checked', function() {
+  it('generate a DELETE request with no body', function () {
     var petApi = sample.pet;
-    var params = {
-      headers: {},
-      petId: false
-    };
-    var opts = { mock: true };
+    var req = petApi.deletePet({petId: 100}, {mock: true});
 
-    var req = petApi.getPetById(params, opts);
+    test.object(req);
 
-    should(req.method).equal('GET');
-    should(req.headers['Accept']).equal('application/json');
-    test.value(req.headers['Content-Type']).isUndefined();
-    should(req.url).equal('http://localhost:8000/api/pet/false');
-  })
+    expect(req.method).toBe('DELETE');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.headers['Content-Type']).toBe(undefined);
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet/100');
+    expect(req.body).toBe(undefined);
+  });
 
-  it('tests the urlify function', function() {
-    var op = sample.apis['pet'].operations.getPetById
-    op.pathJson = function() {
-      return "/entities/{id:([a-z0-9-]{36})}"
-    }
-    // console.log(op.urlify({petId: 1, 'id:\(\[a\-z0\-9\-\]\{36\}\)': 'ok'}));
-  })
-
-  it('tests the body param', function() {
-    var params = {
-      body: {id: 1}
-    };
-    var opts = { mock: true };
-    var req = sample.pet.addPet(params, opts);
-    test.object(req.body);
-    should(req.body.id).equal(1);
-  })
-
-  it('tests the body param when name is not `body`, per #168', function() {
-    var op = sample.apis['pet'].operations.addPet
-    op.parameters[0].name = 'pet';
-
-    var params = {
-      body: {id: 1}
-    };
-    var opts = { mock: true };
-    var req = sample.pet.addPet(params, opts);
-    test.object(req.body);
-    should(req.body.id).equal(1);
-  })
-
-  it('verifies headers when fetching the swagger specification', function() {
-    var sample = new swagger.SwaggerApi('http://localhost:8000/api-docs.json');
-    var req = sample.build(true);
-    should(req.headers['accept']).equal('application/json,application/json;charset=utf-8,*/*');
-  })
-
-  it('allows override of headers when fetching the swagger specification', function() {
-    var opts = {
-      swaggerRequstHeaders: 'foo/bar'
-    };
-    var sample = new swagger.SwaggerApi('http://localhost:8000/api-docs.json', opts);
-    var req = sample.build(true);
-    should(req.headers['accept']).equal('foo/bar');
-  })
-
-  it('verifies the http request object for a GET with email address query params per https://github.com/swagger-api/swagger-ui/issues/814', function() {
+  it('generate a DELETE request with body', function () {
     var petApi = sample.pet;
-    var params = {
-      headers: {},
-      status: 'fehguy@gmail.com'
-    };
-    var opts = { mock: true };
+    var req = petApi.deletePet({petId: 100, body: {id: 100, name: 'gorilla'}}, {mock: true});
 
-    var req = petApi.findPetsByStatus(params, opts);
+    test.object(req);
 
-    should(req.method).equal("GET");
-    should(req.headers["Accept"]).equal("application/json");
-    should(req.url).equal("http://localhost:8000/api/pet/findByStatus?status=fehguy%40gmail.com");
-  })
-})
+    expect(req.method).toBe('DELETE');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.headers['Content-Type']).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet/100');
+    expect(req.body).toEqual({ id: 100, name: 'gorilla' });
+  });
+
+  it('escape an operation id', function () {
+    var storeApi = sample.store.get_inventory_1; // jshint ignore:line
+
+    expect(typeof storeApi).toEqual('function');
+  });
+
+  it('return a json sample in array', function () {
+    var successResponse = sample.pet.operations.findPetsByTags.successResponse;
+
+    expect(typeof successResponse['200']).toBe('object');
+    expect(successResponse['200'].createJSONSample()).toEqual([
+      {
+        id: 0,
+        category: {
+          id: 0,
+          name: 'string'
+        },
+        name: 'doggie',
+        photoUrls: [
+          'string'
+        ],
+        tags: [
+          {
+            id: 0,
+            name: 'string'
+          }
+        ],
+        status: 'string'
+      }
+    ]);
+  });
+
+  it('return a json sample from an array model', function () {
+    var successResponse = sample.pet.operations.findPetsByStatus.successResponse;
+
+    expect(typeof successResponse['200']).toBe('object');
+    expect(successResponse['200'].createJSONSample()).toEqual([
+      {
+        id: 0,
+        category: {
+          id: 0,
+          name: 'string'
+        },
+        name: 'doggie',
+        photoUrls: [
+          'string'
+        ],
+        tags: [
+          {
+            id: 0,
+            name: 'string'
+          }
+        ],
+        status: 'string'
+      }
+    ]);
+  });
+
+  it('verifies useJQuery is set', function () {
+    var petApi = sample.pet;
+    var req = petApi.getPetById({petId: 1}, {useJQuery: true, mock: true});
+
+    test.object(req);
+
+    expect(req.method).toBe('GET');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet/1');
+    expect(req.useJQuery).toBe(true);
+  });
+
+  it('does not add a query param if not set', function () {
+    var petApi = sample.pet;
+    var req = petApi.findPetsByStatus({}, {mock: true});
+
+    test.object(req);
+
+    expect(req.method).toBe('GET');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet/findByStatus');
+  });
+
+  it('does not add a query param if undefined', function () {
+    var petApi = sample.pet;
+    var req = petApi.findPetsByStatus({status: undefined}, {mock: true});
+
+    test.object(req);
+
+    expect(req.method).toBe('GET');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet/findByStatus');
+  });
+
+  it('should set the correct accept type', function () {
+    var petApi = sample.pet;
+    var req = petApi.findPetsByStatus({status: undefined}, {mock: true, responseContentType: 'application/xml'});
+
+    test.object(req);
+
+    expect(req.method).toBe('GET');
+    expect(req.headers.Accept).toBe('application/xml');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet/findByStatus');
+  });
+
+  it('should set the correct scheme', function () {
+    var userApi = sample.user;
+    var req = userApi.loginUser({username: 'fred', password: 'meyer'}, {mock: true});
+
+    test.object(req);
+
+    expect(req.url).toBe('https://localhost:8000/v2/api/user/login?username=fred&password=meyer');
+  });
+
+  it('should process a delete request with headers', function () {
+    var petApi = sample.pet;
+    var req = petApi.deletePet({petId: 1, api_key: 'abc123'}, {mock: true}); // jshint ignore:line
+
+    test.object(req);
+
+    expect(req.method).toEqual('DELETE');
+    expect(req.url).toEqual('http://localhost:8000/v2/api/pet/1');
+    expect(req.headers.api_key).toEqual('abc123'); // jshint ignore:line
+  });
+
+  it('prints a curl post statement from an object', function () {
+    var petApi = sample.pet;
+    var curl = petApi.addPet.asCurl({body: {id:10101}});
+
+    expect(curl).toBe('curl -X POST --header "Content-Type: application/json" --header "Accept: application/json" -d "{\\"id\\":10101}" "http://localhost:8000/v2/api/pet"');
+  });
+
+  it('prints a curl post statement from a string', function () {
+    var petApi = sample.pet;
+    var curl = petApi.addPet.asCurl({body: '{"id":10101}'});
+
+    expect(curl).toBe('curl -X POST --header "Content-Type: application/json" --header "Accept: application/json" -d "{\\"id\\":10101}" "http://localhost:8000/v2/api/pet"');
+  });
+
+  it('gets an server side 404, and verifies that the content-type in the response is correct, and different than one in the request', function (done) {
+    var petApi = sample.pet;
+
+    // This test will actually hit the 404 path of mock server, which we use to test the content-type is correct
+    petApi.findPetsByStatus({status: undefined}, function (resp) {
+      expect(resp.headers).toNotBe(undefined);
+      expect(resp.headers['content-type']).toNotBe(undefined);
+      expect(resp.headers['content-type']).toBe('text/plain');
+
+      done();
+    });
+  });
+
+  it('calls the error handler with missing params per #375', function(done) {
+    var petApi = sample.pet;
+    petApi.getPetById({}, function(data){
+      console.log('shoulda failed!' + data);
+    }, function() {
+      done();
+    });
+  });
+
+  it('escapes a param per #280', function () {
+    var petApi = sample.pet;
+    var req = petApi.getPetById({petId: 'foo/bar'}, {mock: true});
+
+    test.object(req);
+
+    expect(req.method).toBe('GET');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/v2/api/pet/foo%2Fbar');
+  });
+});
+
+
+describe('swagger host override functions', function () {
+  before(function (done) {
+    mock.petstore(done, function (petstore, server){
+      sample = petstore;
+      instance = server;
+    });
+  });
+
+  after(function (done){
+    instance.close();
+
+    sample.clientAuthorizations.authz = {};
+    done();
+  });
+
+  it('overrides a host https://github.com/swagger-api/swagger-ui/issues/532', function () {
+    sample.setHost('foo:9000');
+    var petApi = sample.pet;
+    var req = petApi.getPetById({petId: 'foo/bar'}, {mock: true});
+
+    test.object(req);
+
+    expect(req.method).toBe('GET');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.url).toBe('http://foo:9000/v2/api/pet/foo%2Fbar');
+  });
+});
+
+describe('swagger basePath override functions', function () {
+  before(function (done) {
+    mock.petstore(done, function (petstore, server){
+      sample = petstore;
+      instance = server;
+    });
+  });
+
+  after(function (done){
+    instance.close();
+
+    sample.clientAuthorizations.authz = {};
+    done();
+  });
+
+  it('overrides a basePath https://github.com/swagger-api/swagger-ui/issues/532', function () {
+    sample.setBasePath('/bar');
+    var petApi = sample.pet;
+    var req = petApi.deletePet({petId: 'foo/bar'}, {mock: true});
+
+    test.object(req);
+
+    expect(req.method).toBe('DELETE');
+    expect(req.headers.Accept).toBe('application/json');
+    expect(req.url).toBe('http://localhost:8000/bar/pet/foo%2Fbar');
+  });
+});

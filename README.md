@@ -1,4 +1,4 @@
-# Swagger JavaScript library
+# Swagger JS library
 
 [![Build Status](https://api.travis-ci.org/strongloop/strong-swagger-js.png?branch=master)](https://travis-ci.org/strongloop/strong-swagger-js)
 
@@ -6,31 +6,36 @@ This repository contains a friendly fork
 of [swagger-js](https://github.com/swagger-api/swagger-js) v2.0.x with
 additional enhancements. Our goal is to eventually contribute these
 improvements to the upstream repository.
+!!FIXME!!
+This is the Swagger javascript client for use with [swagger](http://swagger.io) enabled APIs.
+It's written in javascript and tested with mocha, and is the fastest way to enable a javascript client to communicate with a swagger-enabled server.
 
 The client is compatible with Swagger Spec versions 1.1 and 1.2, the Swagger
 Spec version 2.0 is *not* supported by this module.
 
-### Calling an API with Swagger + Node.js!
+
+### Calling an API with swagger + node.js!
 
 Install swagger-client:
 ```
 npm install swagger-client
 ```
 
-Then let Swagger do the work!
+Then let swagger do the work!
 ```js
-var client = require("swagger-client")
+var client = require('strong-swagger-client');
 
-var swagger = new client.SwaggerApi({
-  url: 'http://petstore.swagger.wordnik.com/api/api-docs',
+var swagger = new client({
+  url: 'http://petstore.swagger.io/v2/swagger.json',
   success: function() {
-    if(swagger.ready === true) {
-      swagger.apis.pet.getPetById({petId:1});
-    }
+    swagger.pet.getPetById({petId:7},{responseContentType: 'application/json'},function(pet){
+      console.log('pet', pet);
+    });
   }
 });
-
 ```
+
+NOTE: we're explicitly setting the responseContentType, because we don't want you getting stuck when there is more than one content type available.
 
 That's it!  You'll get a JSON response with the default callback handler:
 
@@ -63,84 +68,58 @@ That's it!  You'll get a JSON response with the default callback handler:
 Need to pass an API key?  Configure one as a querystring:
 
 ```js
-client.authorizations.add("apiKey", new client.ApiKeyAuthorization("api_key","special-key","query"));
+client.clientAuthorizations.add("apiKey", new client.ApiKeyAuthorization("api_key","special-key","query"));
 ```
 
 ...or with a header:
 
 ```js
-client.authorizations.add("apiKey", new client.ApiKeyAuthorization("api_key","special-key","header"));
+client.clientAuthorizations.add("apiKey", new client.ApiKeyAuthorization("api_key","special-key","header"));
 ```
-####What if you need to call two APIs with the Swagger Client?
-Add a Swagger Authorization when you create the api client.
+
+### Calling an API with swagger + the browser!
+
+Download `browser/swagger-client.js` into your webapp:
 
 ```js
-var client = require("swagger-client")
-// Add the default authorization to the global client.
-client.authorizations.add("apiKey", new client.ApiKeyAuthorization("api_key","special-key","header"));
-
-var swagger = new client.SwaggerApi({
-  url: 'http://petstore.swagger.wordnik.com/api/api-docs',
-  success: function() {
-    if(swagger.ready === true) {
-      swagger.apis.pet.getPetById({petId:1});
-    }
-  },
-  // Add an authorization for this specific swagger client
-  authorizations: new client.SwaggerAuthorization(
-                        "apiKey",
-                        new client.ApiKeyAuthorization("api_key", "another-special-key", "header")
-  )
-});
-
-```
-This adds a global default authorization to the client and then adds a different authorization to the specific swagger
-api client when it is created.  You are able to pass in any number of new authorization headers by creating your
-SwaggerAuthorization and then using its add method to add new ApiKeyAuthorizations.
-
-### Calling an API with Swagger + the browser!
-
-Download `swagger.js` and `shred.bundle.js` into your lib folder
-
-```html
-<script src='lib/shred.bundle.js' type='text/javascript'></script>
-<script src='lib/swagger.js' type='text/javascript'></script>
+<script src='browser/swagger-client.js' type='text/javascript'></script>
 <script type="text/javascript">
   // initialize swagger, point to a resource listing
-  window.swagger = new SwaggerApi({
-    url: "http://petstore.swagger.wordnik.com/api/api-docs",
+  window.swagger = new SwaggerClient({
+    url: "http://petstore.swagger.io/api/api-docs",
     success: function() {
-      if(swagger.ready === true) {
-        // upon connect, fetch a pet and set contents to element "mydata"
-        swagger.apis.pet.getPetById({petId:1}, function(data) {
-          document.getElementById("mydata").innerHTML = data.content.data;
-        });
-      }
+      // upon connect, fetch a pet and set contents to element "mydata"
+      swagger.apis.pet.getPetById({petId:1},{responseContentType: 'application/json'}, function(data) {
+        document.getElementById("mydata").innerHTML = JSON.stringify(data.obj);
+      });
     }
   });
 </script>
+
+<body>
+  <div id="mydata"></div>
+</body>
 ```
 
 ### Need to send an object to your API via POST or PUT?
 ```js
-var body = {
+var pet = {
   id: 100,
-  name: "dog"
-};
+  name: "dog"};
 
-swagger.apis.pet.addPet({body: JSON.stringify(body)});
+swagger.pet.addPet({body: pet});
 ```
 
 ### Sending XML in as a payload to your API?
 ```js
-var body = "<Pet><id>2</id><name>monster</name></Pet>";
+var pet = "<Pet><id>2</id><name>monster</name></Pet>";
 
-swagger.apis.pet.addPet({body: body},{requestContentType:"application/xml"});
+swagger.pet.addPet({body: pet}, {requestContentType:"application/xml"});
 ```
 
 ### Need XML response?
 ```js
-swagger.apis.pet.getPetById({petId:1},{responseContentType:"application/xml"});
+swagger.pet.getPetById({petId:1}, {responseContentType:"application/xml"});
 ```
 
 ### Custom request signing
@@ -160,10 +139,12 @@ CustomRequestSigner.prototype.apply = function(obj, authorizations) {
 };
 ```
 
-In the above simple example, we're creating a new request signer that simply base 64 encodes the URL.  Of course you'd do something more sophisticated, but after encoding it, a header called `signature` is set before sending the request.
+In the above simple example, we're creating a new request signer that simply
+base 64 encodes the URL.  Of course you'd do something more sophisticated, but
+after encoding it, a header called `signature` is set before sending the request.
 
 ### How does it work?
-The Swagger JavaScript client reads the Swagger api definition directly from the server.  As it does, it constructs a client based on the api definition, which means it is completely dynamic.  It even reads the api text descriptions (which are intended for humans!) and provides help if you need it:
+The swagger javascript client reads the swagger api definition directly from the server.  As it does, it constructs a client based on the api definition, which means it is completely dynamic.  It even reads the api text descriptions (which are intended for humans!) and provides help if you need it:
 
 ```js
 s.apis.pet.getPetById.help()
@@ -176,22 +157,46 @@ The HTTP requests themselves are handled by the excellent [shred](https://github
 Development
 -----------
 
-The original Swagger.js client was written in CoffeeScript
-and was transpiled from develop_2.0 branch. This fork is maintaining the
-transpiled files only.
+Please [fork the code](https://github.com/strongloop/strong-swagger-js) and help us improve
+swagger-client.js. Send us a pull request to the `master` branch!  Tests make merges get accepted more quickly.
 
-Running the tests
+swagger-js use gulp for Node.js.
+
 ```bash
-npm test
+# Install the gulp client on the path
+npm install -g gulp
 
-# or
-mocha test
+# Install all project dependencies
+npm install
+```
+
+```bash
+# List all tasks.
+gulp -T
+
+# Run lint (will not fail if there are errors/warnings), tests (without coverage) and builds the browser binaries
+gulp
+
+# Run the test suite (without coverage)
+gulp test
+
+# Build the browser binaries (One for development with source maps and one that is minified and without source maps) in the browser directory
+gulp build
+
+# Continuously run the test suite:
+gulp watch
+
+# Run jshint report
+gulp lint
+
+# Run a coverage report based on running the unit tests
+gulp coverage
 ```
 
 License
 -------
 
-Copyright 2011-2014 Reverb Technolgies, Inc.
+Copyright 2011-2015 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

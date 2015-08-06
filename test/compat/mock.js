@@ -1,13 +1,13 @@
 'use strict';
 
-var http = require('http');
-var url = require('url');
-var path = require('path');
 var fs = require('fs');
-var SwaggerClient = require('..');
+var http = require('http');
+var path = require('path');
+var url = require('url');
+var SwaggerClient = require('../..');
 
 exports.petstore = function (arg1, arg2, arg3, arg4) {
-  var done = arg1, opts = arg2, callback = arg3, macros = arg4;
+  var done = arg1, opts = arg2 || {}, callback = arg3, macros = arg4;
 
   if (typeof arg2 === 'function') {
     opts = {};
@@ -18,40 +18,17 @@ exports.petstore = function (arg1, arg2, arg3, arg4) {
   var instance = http.createServer(function (req, res) {
     var uri = url.parse(req.url).pathname;
     var filename = path.join('test/spec', uri);
-    // for testing redirects
 
-    if (filename === 'test/spec/api/redirect') {
+    // for testing redirects
+    if (filename === 'test/spec/v1/api/redirect') {
       res.writeHead(302, {
-        'Location': 'http://localhost:8000/api/pet/1'
+        'Location': 'http://localhost:8001/v1/api/pet/1'
       });
       res.end();
     } else {
       fs.exists(filename, function (exists) {
         if (exists) {
-          if (req.method === 'POST') {
-            var body = '';
-
-            req.on('data', function (data) {
-              body += data.toString();
-            });
-            req.on('end', function () {
-              res.setHeader('Access-Control-Allow-Origin', '*');
-              res.setHeader('Content-Type', 'application/json');
-              res.writeHead(200, 'application/json');
-              res.write(body);
-              res.end();
-            });
-
-            return;
-          }
           var accept = req.headers.accept;
-          var contentType;
-          if(filename.indexOf('.yaml') > 0) {
-            contentType = 'application/yaml';
-          }
-          else {
-            contentType = 'application/json';
-          }
 
           if (typeof accept !== 'undefined') {
             if (accept === 'invalid') {
@@ -60,25 +37,22 @@ exports.petstore = function (arg1, arg2, arg3, arg4) {
               return;
             }
 
-            if (accept.indexOf('application/json') >= 0) {
-              contentType = accept;
-              res.setHeader('Content-Type', contentType);
-            }
-            if (filename.indexOf('.yaml') > 0) {
-              res.setHeader('Content-Type', 'application/yaml');
+            if (accept.indexOf('application/json') !== -1) {
+              res.setHeader('Content-Type', 'application/json');
             }
           }
 
           res.setHeader('Access-Control-Allow-Origin', '*');
-          res.writeHead(200, contentType);
+          res.writeHead(200, 'application/json');
 
           var fileStream = fs.createReadStream(filename);
+
           fileStream.pipe(res);
-        } else if (filename === 'test/compat/spec/api/pet/0') {
+        } else if (filename === 'test/spec/v1/api/pet/0') {
           res.writeHead(500);
           res.end();
 
-          return;
+          return;          
         } else {
           res.writeHead(200, {'Content-Type': 'text/plain'});
           res.write('404 Not Found\n');
@@ -86,19 +60,17 @@ exports.petstore = function (arg1, arg2, arg3, arg4) {
         }
       });
     }
-  }).listen(8000);
+  }).listen(8001);
 
   instance.on('listening', function () {
     var sample;
-
-    opts = opts || {};
-    opts.url = opts.url || 'http://localhost:8000/v2/petstore.json';
     opts.success = function () {
       done();
       callback(sample, instance);
       return;
     };
 
+    opts.url = 'http://localhost:8001/v1/api-docs.json';
     sample = new SwaggerClient(opts);
 
     if (macros) {
