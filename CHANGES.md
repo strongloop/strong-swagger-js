@@ -1,3 +1,9 @@
+2015-08-06, Version 20.1.0
+==========================
+
+ * Normalize array values of text properties (Miroslav Bajtoš)
+
+
 2015-07-07, Version 20.0.0
 ==========================
 
@@ -257,12 +263,12 @@
  * updated logic for stringifying xml nodes (Tony Tam)
 
 
-2014-04-17, Version 2.0.27
+2014-04-17, Version 2.0.28
 ==========================
 
 
 
-2014-04-17, Version 2.0.28
+2014-04-17, Version 2.0.27
 ==========================
 
  * added sample model override logic (Tony Tam)
