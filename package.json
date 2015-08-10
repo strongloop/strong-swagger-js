@@ -19,8 +19,7 @@
     "prepublish": "gulp build",
     "build": "gulp build",
     "dev": "gulp watch",
-    "test": "gulp test",
-    "browsertest": "gulp browsertest"
+    "test": "gulp test && gulp browsertest"
   },
   "files": [
     "LICENSE",
