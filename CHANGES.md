@@ -1,5 +1,27 @@
+2015-08-11, Version 21.0.0-dev.2
+================================
+
+ * Updated README.md (Ferran Gonzalez Alonso)
+
+ * Run browsertest as part of `npm test` (Miroslav Bajtoš)
+
+ * Updated build image link (Ron)
+
+ * Delete CONTRIBUTING.md (Ron)
+
+ * Update README.md (Ron)
+
+ * Revert "Ability to choose scheme on client init.." (Tony Tam)
+
+ * added initialize option for explicitly setting the client scheme rather than the client "guessing" (Tommy Messbauer)
+
+ * - provides a message when definition is not found, instead of an error. (Taras Katkov)
+
+
 2015-08-06, Version 21.0.0-dev.1
 ================================
+
+ * 21.0.0-dev.1 (Miroslav Bajtoš)
 
  * Include browser/ dist in npm package (Miroslav Bajtoš)
 

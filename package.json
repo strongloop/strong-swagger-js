@@ -8,7 +8,7 @@
     }
   ],
   "description": "strong-swagger-client is a javascript client for use with swaggering APIs.",
-  "version": "21.0.0-dev.1",
+  "version": "21.0.0-dev.2",
   "homepage": "http://swagger.io",
   "repository": {
     "type": "git",
