@@ -1,3 +1,11 @@
+2015-08-24, Version 20.1.1
+==========================
+
+ * fixed possible undefined parameters (Stefano Valicchia)
+
+ * Add publishConfig to prevent npm/npm#6778 (Miroslav Bajtoš)
+
+
 2015-08-06, Version 20.1.0
 ==========================
 

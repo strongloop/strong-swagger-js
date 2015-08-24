@@ -8,8 +8,10 @@
     }
   ],
   "description": "swagger.js is a javascript client for use with swaggering APIs.",
-  "version": "20.1.0",
-  "publishConfig": { "tag": "20.x" },
+  "version": "20.1.1",
+  "publishConfig": {
+    "tag": "20.x"
+  },
   "homepage": "http://swagger.io",
   "repository": {
     "type": "git",
