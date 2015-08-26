@@ -244,6 +244,21 @@ describe('operations', function () {
     expect(url).toBe('http://localhost/foo/fred,bob,mary/bar');
   });
 
+  it('should generate a url without missing optional path param', function () {
+    var parameters = [
+      {
+        in: 'path',
+        name: 'name',
+        type: 'string',
+      }
+    ];
+    var op = new Operation({}, 'http', 'test', 'get', '/foo/{name}/bar', { parameters: parameters },
+                                   {}, {}, new auth.SwaggerAuthorizations());
+    var url = op.urlify({});
+
+    expect(url).toBe('http://localhost/foo/bar');
+  });
+
   it('should correctly replace path params', function () {
     var parameters = [
       { in: 'path', name: 'a0', type: 'string' },
