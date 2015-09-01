@@ -1,6 +1,8 @@
 2015-08-11, Version 21.0.0-dev.2
 ================================
 
+ * 21.0.0-dev.2 (Miroslav Bajtoš)
+
  * Updated README.md (Ferran Gonzalez Alonso)
 
  * Run browsertest as part of `npm test` (Miroslav Bajtoš)
