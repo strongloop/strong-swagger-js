@@ -1,3 +1,118 @@
+2015-09-29, Version 21.1.0
+==========================
+
+ * package: install http-server from npmjs (Miroslav Bajtoš)
+
+ * Fix support for "title" tag (Miroslav Bajtoš)
+
+ * added teset for #546 (Tony Tam)
+
+ * 21.0.0-dev.2 (Miroslav Bajtoš)
+
+ * Run browsertest as part of `npm test` (Miroslav Bajtoš)
+
+ * 21.0.0-dev.1 (Miroslav Bajtoš)
+
+ * Include browser/ dist in npm package (Miroslav Bajtoš)
+
+ * Remove `browser` from git, remove bower.json (Miroslav Bajtoš)
+
+ * Normalize array values of text properties (Miroslav Bajtoš)
+
+ * Rename the module to strong-swagger-client (Miroslav Bajtoš)
+
+ * add ui support for array of string enum (Jake Ayala)
+
+ * Remove error for duplicate body params, since it breaks Try it out (Shelby Sanders)
+
+ * Refactored to visualize more parameter and property restrictions (Shelby Sanders)
+
+ * Added setting of xhrFields.withCredentials, so JQuery will actually send cookies (Shelby Sanders)
+
+ * Corrected getSampleJSON() to handle Array of Model (Shelby Sanders)
+
+ * Added support for optional path parameters (Shelby Sanders)
+
+ * Remove unnecessary comma between properties as it's confusing for multi-line content (Shelby Sanders)
+
+ * Changed SwaggerModelProperty() to avoid reference error when property name coincidentally matches a Swagger schema name (Shelby Sanders)
+
+ * Changed SwaggerRequest to forward request headers and body to status (Shelby Sanders)
+
+ * Ported changes from SwaggerUI for handling of arrays of types/models, defaultValues, basePaths, and large descriptions (Shelby Sanders)
+
+ * Fix unit-tests on Windows (Miroslav Bajtoš)
+
+ * Fix project infrastructure (Miroslav Bajtoš)
+
+
+2015-09-19, Version 2.1.5
+=========================
+
+ * rebuilt (Tony Tam)
+
+ * fix for #577, added extension for default value (Tony Tam)
+
+ * updated version (Tony Tam)
+
+ * renamed files for consistency (fehguy)
+
+ * fix for #577, added `defaultValue` in conversion (fehguy)
+
+ * Add a warning to the user, that this may take a while. (Wilfried Goesgens)
+
+ * Allow schema example to be false (John Clark)
+
+
+2015-09-15, Version 2.1.4
+=========================
+
+ * linting (Tony Tam)
+
+ * rebuilt (Tony Tam)
+
+ * added null check (Tony Tam)
+
+ * updated tests for resolver cases (Tony Tam)
+
+ * updated version (Tony Tam)
+
+ * added root spec (Tony Tam)
+
+ * fixed #570, references against single document without keys (Tony Tam)
+
+ * added more tests for resolver #570 (Tony Tam)
+
+ * enabled test (Tony Tam)
+
+ * added fix, tests for #489 (Tony Tam)
+
+ * added resolution of inline property `allOf` constructs per #459 (Tony Tam)
+
+ * updated docs for #478 (Tony Tam)
+
+ * fixed resolving of "example" in allOf case (Taras Katkov)
+
+ * add hasOwnProperty check in resolver (Andrey Karavashkin)
+
+
+2015-08-19, Version 2.1.3
+=========================
+
+ * rebuilt, updated version for release (Tony Tam)
+
+ * more descriptive name (Tony Tam)
+
+ * added operation parameter (Tony Tam)
+
+ * fixed assignment error (Tony Tam)
+
+
+2015-09-01, Version 21.0.0
+==========================
+
+
+
 2015-08-11, Version 21.0.0-dev.2
 ================================
 
@@ -1241,12 +1356,12 @@
  * updated logic for stringifying xml nodes (Tony Tam)
 
 
-2014-04-17, Version 2.0.28
+2014-04-17, Version 2.0.27
 ==========================
 
 
 
-2014-04-17, Version 2.0.27
+2014-04-17, Version 2.0.28
 ==========================
 
  * added sample model override logic (Tony Tam)
