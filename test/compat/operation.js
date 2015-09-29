@@ -53,7 +53,7 @@ describe('1.2 verifies the nickname is sanitized', function() {
   });
 });
 
-describe('verifies the get pet operation', function() {
+describe('1.2 verifies the get pet operation', function() {
   before(function(done) {
     mock.petstore(done, function(petstore, server){
       sample = petstore;
@@ -148,6 +148,7 @@ describe('verifies the get pet operation', function() {
     expect(param.name).toBe('body');
     expect(param.schema.$ref).toBe('#/definitions/Pet');
     expect(param.in).toBe('body');
+    expect(param.default).toBe('{\n  \"petId\":1234\n}');
 
     test.value(param.description);
   });

@@ -51,7 +51,8 @@ describe('swagger resolver', function () {
           },
           {
             $ref : '#/definitions/Animal'
-          } ]
+          } ],
+          example: 'this is example'
         },
         Pet : {
           allOf : [ {
@@ -111,6 +112,7 @@ describe('swagger resolver', function () {
       test.object(properties.hasScales);
       expect(properties.hasScales['x-resolved-from']).toBe('self');
       test.undefined(spec.definitions.Animal.properties.firstName);
+      expect(spec.definitions.Human.example).toBe('this is example');
       done();
     });
   });
@@ -225,4 +227,113 @@ describe('swagger resolver', function () {
     });
   });
 
+  it('resolves a model with a composed response array', function (done) {
+    var api = new Resolver();
+    var spec = {
+      paths: {
+        '/test': {
+          get: {
+            responses: {
+              200: {
+                schema: {
+                  type: 'array',
+                  items: {
+                    $ref: '#/definitions/Response'
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      definitions: {
+        Request: {
+        properties: {
+          name: {
+            type: 'string'
+          }
+        }
+      },
+      Response: {
+        allOf: [
+          {
+            $ref: '#/definitions/Request'
+          },
+          {
+            properties: {
+              id: {
+                description: 'ID of entry',
+                type: 'integer',
+                format: 'int32'
+              }
+            }
+          }
+        ]
+        }
+      }
+    };
+
+    api.resolve(spec, 'http://localhost:8000/v2/petstore.json', function (spec, unresolved) {
+      expect(Object.keys(unresolved).length).toBe(0);
+      test.object(spec);
+      done();
+    });
+  });
+
+  it('tests issue #459', function (done) {
+    var api = new Resolver();
+    var spec = {
+      definitions: {
+        'new_model': {
+          properties: {
+            subclass: {
+              allOf: [
+                {
+                  $ref: '#/definitions/superclass'
+                },
+                {
+                  properties: {
+                    name: {
+                      type: 'string'
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        superclass: {
+          properties: {
+            id: {
+              format: 'int32',
+              type: 'integer'
+            }
+          }
+        }
+      }
+    };
+    api.resolve(spec, 'http://localhost:8000/v2/petstore.json', function (spec, unresolved) {
+      expect(Object.keys(unresolved).length).toBe(0);
+      test.object(spec);
+      var schema = spec.definitions['new_model'].properties.subclass;
+
+      expect(schema['x-composed']).toBe(true);
+      expect(Array.isArray(schema['x-resolved-from'])).toBe(true);
+      expect(schema['x-resolved-from'][0]).toBe('#/definitions/new_model');
+      expect(schema['x-resolved-from'][1]).toBe('#/definitions/superclass');
+
+      expect(Object.keys(schema.properties).length).toBe(2);
+
+      var id = schema.properties.id;
+      expect(id.type).toBe('integer');
+      expect(id.format).toBe('int32');
+      expect(id['x-resolved-from']).toBe('#/definitions/superclass');
+
+      var name = schema.properties.name;
+      expect(name.type).toBe('string');
+      expect(name['x-resolved-from']).toBe('self');
+
+      done();
+    });
+  });
 });
